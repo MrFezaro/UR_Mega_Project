@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>color_square_detector</name>
+  <version>0.0.1</version>
+  <description>Detects red, yellow, and blue squares</description>
+  <maintainer email="you@example.com">Your Name</maintainer>
+  <license>MIT</license>
+
+  <depend>rclcpp</depend>
+  <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>cv_bridge</depend>
+  <depend>image_transport</depend>
+  <depend>opencv</depend>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>
