@@ -180,21 +180,20 @@ The `p[...]` prefix tells the UR controller to interpret the target as a Cartesi
 - **Invalid ray-cast** (ray points away from the table, `t < 0`) returns `None` and is treated as no detection
 
 ### Known weaknesses
-
 | Issue | Root cause | Effect |
 |-------|-----------|--------|
 | No motion feedback | `sleep`-based sync instead of controller acknowledgement | Next move may start before the previous one finishes |
-| Single-frame detection | `_wait_detection` returns the first message received | A spurious detection yields a wrong target position |
+| Single-frame detection | `_wait_detection` returns the first message received | A false detection yields a wrong target position |
 | Fixed search rotation | Search angles rotate the *home position*, not the cube's direction | May not help if the cube is directly in front of the robot |
 | Lighting sensitivity | Static HSV thresholds, no adaptive normalisation | Changed ambient light made detection harder |
-| Hardcoded `camera_yaw_deg` | Physical camera mounting may deviate | Systematic XY offset in all projected positions |
+| Coordinate frame mismatch | Incorrect axis mapping or hardcoded `camera_yaw_deg` | Systematic XY offset, projected positions inverted/flipped |
 
 ### Suggested improvements
-
 - **Temporal filtering** average centroids over N consecutive frames before projecting to reduce single-frame noise
 - **Controller feedback** subscribe to `/joint_states` or the UR dashboard socket to confirm motion completion instead of relying on `sleep`
 - **Adaptive thresholding** normalise V-channel (CLAHE) before HSV thresholding to handle varying illumination
-- **Depth integration** a RealSense or similar sensor would make pixel-to-XYZ projection exact and table-Z-independent
+- **Frame calibration** perform an explicit hand-eye calibration to resolve the coordinate frame mismatch and eliminate the systematic position offset
+- **Depth integration** a RealSense or similar sensor would make pixel-to-XYZ projection exact and remove the dependency on a fixed table height
 
 ---
 
