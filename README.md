@@ -187,6 +187,7 @@ The `p[...]` prefix tells the UR controller to interpret the target as a Cartesi
 | Fixed search rotation | Search angles rotate the *home position*, not the cube's direction | May not help if the cube is directly in front of the robot |
 | Lighting sensitivity | Static HSV thresholds, no adaptive normalisation | Changed ambient light made detection harder |
 | Coordinate frame mismatch | Incorrect axis mapping or hardcoded `camera_yaw_deg` | Systematic XY offset, projected positions inverted/flipped |
+| No cube tracking between runs | Detected target is chosen arbitrarily when multiple cubes share the same colour | Robot may point at the same cube twice across consecutive search runs instead of progressing to the next one |
 
 ### Suggested improvements
 - **Temporal filtering** average centroids over N consecutive frames before projecting to reduce single-frame noise
@@ -194,6 +195,7 @@ The `p[...]` prefix tells the UR controller to interpret the target as a Cartesi
 - **Adaptive thresholding** normalise V-channel (CLAHE) before HSV thresholding to handle varying illumination
 - **Frame calibration** perform an explicit hand-eye calibration to resolve the coordinate frame mismatch and eliminate the systematic position offset
 - **Depth integration** a RealSense or similar sensor would make pixel-to-XYZ projection exact and remove the dependency on a fixed table height
+- **Position-based cube tracking** keep a list of already-visited centroid positions across search runs and exclude detections within a set distance of a previously targeted cube, ensuring each physical cube is only approached once
 
 ---
 
