@@ -186,7 +186,7 @@ The `p[...]` prefix tells the UR controller to interpret the target as a Cartesi
 | No motion feedback | `sleep`-based sync instead of controller acknowledgement | Next move may start before the previous one finishes |
 | Single-frame detection | `_wait_detection` returns the first message received | A spurious detection yields a wrong target position |
 | Fixed search rotation | Search angles rotate the *home position*, not the cube's direction | May not help if the cube is directly in front of the robot |
-| Lighting sensitivity | Static HSV thresholds, no adaptive normalisation | Changed ambient light breaks detection |
+| Lighting sensitivity | Static HSV thresholds, no adaptive normalisation | Changed ambient light made detection harder |
 | Hardcoded `camera_yaw_deg` | Physical camera mounting may deviate | Systematic XY offset in all projected positions |
 
 ### Suggested improvements
